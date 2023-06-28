@@ -15,7 +15,7 @@ import java.util.List;
 public class LoanService {
     private final UserRepository userRepository;
     private final LoanRepository loanRepository;
-    private final SMSService smsService;
+//    private final SMSService smsService;
 
     @Value("${loan.clearance.enabled:false}") // Read configuration for loan clearance
     private boolean loanClearanceEnabled;
@@ -24,10 +24,10 @@ public class LoanService {
     private int loanClearanceAgeMonths;
 
     @Autowired
-    public LoanService(UserRepository userRepository, LoanRepository loanRepository, SMSService smsService) {
+    public LoanService(UserRepository userRepository, LoanRepository loanRepository) {
         this.userRepository = userRepository;
         this.loanRepository = loanRepository;
-        this.smsService = smsService;
+//        this.smsService = smsService;
     }
 
     public Loan lendLoan(String msisdn, BigDecimal amount) {
@@ -41,7 +41,7 @@ public class LoanService {
         loan = loanRepository.save(loan);
 
         // Send SMS notification
-        smsService.sendSMS(msisdn, "Loan of " + amount + " has been lent.");
+//        smsService.sendSMS(msisdn, "Loan of " + amount + " has been lent.");
 
         return loan;
     }
@@ -57,10 +57,10 @@ public class LoanService {
             loanRepository.save(loan);
 
             // Send SMS notification
-            smsService.sendSMS(loan.getUser().getMsisdn(), "Repayment of " + amount + " received. Remaining loan amount: " + remainingAmount);
+//            smsService.sendSMS(loan.getUser().getMsisdn(), "Repayment of " + amount + " received. Remaining loan amount: " + remainingAmount);
         } else {
             // Send SMS notification
-            smsService.sendSMS(loan.getUser().getMsisdn(), "Repayment of " + loan.getAmount() + " received. Loan fully repaid.");
+//            smsService.sendSMS(loan.getUser().getMsisdn(), "Repayment of " + loan.getAmount() + " received. Loan fully repaid.");
 
             loanRepository.delete(loan);
         }
@@ -79,7 +79,7 @@ public class LoanService {
 
         for (Loan loan : defaultedLoans) {
             // Send SMS notification
-            smsService.sendSMS(loan.getUser().getMsisdn(), "Your defaulted loan has been cleared.");
+//            smsService.sendSMS(loan.getUser().getMsisdn(), "Your defaulted loan has been cleared.");
 
             loanRepository.delete(loan);
         }
