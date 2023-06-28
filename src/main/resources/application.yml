@@ -1,0 +1,56 @@
+spring:
+  datasource:
+    url: jdbc:sqlserver://10.40.41.10:4120;databaseName=ABC_MB #jdbc:sqlserver://10.50.41.10:4120;databaseName=UBA_AGENCY
+    driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
+    username: Admin #UBA_BILLERS
+    password: Pass@123
+  jpa:
+    database-platform: org.hibernate.dialect.SQLServer2012Dialect
+    show-sql: true
+    hibernate:
+      properties:
+        dialect: org.hibernate.dialect.SQLServer2012Dialect
+  jmx:
+    enabled: false
+  profiles:
+    active: dev
+logging:
+  level:
+    com:
+      ekenya: debug
+    root: info
+server:
+  port: 8189
+  ssl: #SSL
+    enabled: false
+   # key-store: classpath:star_agentbankug_com.p12
+   # key-store-password: changeit
+   # key-store-type: PKCS12  # PKCS12 or JKS
+  servlet:
+    context-path: /api/
+pos-api:
+  masked-fields: password, field2, field102, field103, jwtToken, extraData
+app:
+  jwt-secret: JWTSecretKey
+  jwt-expiration-milliseconds: 300000 # 5mins
+kstore: './keys/star_agentbankug_com.p12'
+#http://10.40.45.10:4111/ESBHTTPServerV1.2/HTTPServlet
+esb:
+  http:
+    conn-timeout: 60
+    write-timeout: 120
+    read-timeout: 120
+  api:
+    port: 4111 #4112
+    host: 10.40.45.10 #127.0.0.1 #10.50.45.10
+    protocol: HTTP
+  dek:
+    device-encryption-required: false
+    tms-to-abs: false
+elevator-num-of-floors: 15
+loan:
+  clearance:
+    enabled: true
+    age:
+      months: 6
+
